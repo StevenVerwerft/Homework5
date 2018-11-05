@@ -43,14 +43,14 @@ void init_set(void) {
 			}
 			
 			int player = (j / 13);
-			int card = x[j] / 13;
+			int cardtype = x[j] / 13;  // S=0, H=1, D=2, C=3
 		
 			char remainder = x[j] % 13;
 			if (remainder < 4) {
 				hp[i][player] += (4 - remainder);  // task purpose 1
 			}
 
-			current_hands[(player*4) + card]++;
+			current_hands[(player*4) + cardtype]++;
 		}
 
 		int value = 0;  // value calculated as (((i-4)*7)+j)*5 + k
@@ -59,13 +59,13 @@ void init_set(void) {
 
 		for (int player = 0; player <= 3; player++) {
 
-			player_hand = (current_hands[player*4]) 
-				+ (current_hands[player*4 + 1] << 4) 
-				+ (current_hands[player*4 + 2] << 8) 
-				+ (current_hands[player*4 + 3] << 12);
+			player_hand = (current_hands[player*4])    // spades
+				+ (current_hands[player*4 + 1] << 4)   // hearts
+				+ (current_hands[player*4 + 2] << 8)   // diamonds
+				+ (current_hands[player*4 + 3] << 12); // cubes
 			
 			/*	
-				codes: Spades = 0, Diamonds = 1, Hearts = 2, Clubs = 3
+				codes: Spades = 0, Hearts = 1, Diamonds = 2, Clubs = 3
 				=> shift each card by its code number*4
 
 				e.g.:
